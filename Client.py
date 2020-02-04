@@ -13,3 +13,5 @@ def rtt(samp):
 
 
 print(list(map(rtt, samples)))
+
+
