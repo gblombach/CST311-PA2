@@ -2,6 +2,27 @@
 from socket import *
 from statistics import mean
 import time
+
+
+def rtt_equation(sample_arr):
+    EstimatedRTT = 0
+    DevRTT = 0
+    ALPHA = 0.125
+    BETA = 0.25
+
+    print(list(sample_arr))
+    print("========================")
+
+    for sampleRTT in sample_arr:
+        EstimatedRTT = (1 - ALPHA) * EstimatedRTT + ALPHA * sampleRTT
+        DevRTT = (1 - BETA) * DevRTT + BETA * abs(sampleRTT - EstimatedRTT)
+    print('EstimatedRTT', round(EstimatedRTT, 3))
+    print("DevRTT", round(DevRTT, 3))
+    print("========================")
+    Timout = EstimatedRTT + 4 * DevRTT
+    print('TimeoutInterval', round(Timout, 3))
+
+
 serverName = 'localhost'
 serverPort = 12000
 clientSocket = socket(AF_INET, SOCK_DGRAM)
@@ -40,3 +61,6 @@ print("=======================================================")
 print(f"Ping statistics for {serverAddress}: Packets: Sent = {sent}, Received = {received}, Lost = {lost}, "
       f"Loss Percentage = {loss_percentage}% \nApproximate round trip "
       f"times in milli-seconds: Minimum = {min_rtt}ms, Maximum = {max_rtt}ms, Average = {avg_rtt}ms")
+
+rtt_equation(rtt_arr)
+
