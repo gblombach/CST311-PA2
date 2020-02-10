@@ -1,4 +1,4 @@
-#Blombach, Chicas-Terrill, Orduna, Stephens
+# Blombach, Chicas-Terrill, Orduna, Stephens
 from socket import *
 from statistics import mean
 import time
@@ -16,17 +16,16 @@ def rtt_equation(sample_arr):
     alpha = 0.125
     beta = 0.25
 
-    print(list(sample_arr))
     print("========================")
 
     for sampleRTT in sample_arr:
         estimated_rtt = (1 - alpha) * estimated_rtt + alpha * sampleRTT
         dev_rtt = (1 - beta) * dev_rtt + beta * abs(sampleRTT - estimated_rtt)
-    print('estimated_rtt', round(estimated_rtt, 3))
-    print("dev_rtt", round(dev_rtt, 3))
+    print('estimated_rtt: ', round(estimated_rtt, 3))
+    print("dev_rtt: ", round(dev_rtt, 3))
     print("========================")
     timeout_interval = estimated_rtt + 4 * dev_rtt
-    print('TimeoutInterval', round(timeout_interval, 3))
+    print('TimeoutInterval: ', round(timeout_interval, 3))
 
 
 serverName = 'localhost'
