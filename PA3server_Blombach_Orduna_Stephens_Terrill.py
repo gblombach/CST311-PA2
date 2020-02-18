@@ -14,7 +14,7 @@ messageSize = 1024
 clients = collections.OrderedDict()
 encoding = 'utf8'
 checkPoint = False
-order =['X', 'Y']
+order = ['X', 'Y']
 
 
 # Create a TCP socket
@@ -28,8 +28,8 @@ def accept_connection():
     while True:
         client, client_address = serverSocket.accept()
         print('%s:%s has connected' % client_address)
-        client.send(bytes('Connected to chat server. Enter your name and press enter.',encoding))
-        Thread(target=client_chat, args=(client,client_address)).start()
+        client.send(bytes('Connected to chat server. Enter your name and press enter.', encoding))
+        Thread(target=client_chat, args=(client, client_address)).start()
 
 
 # function for receiving messages from clients
@@ -37,10 +37,10 @@ def client_chat(client, client_address):
     name = client.recv(messageSize).decode()
     # store sockets in tuple
     clients[client] = name
-    client.send(bytes('You are connected to chat. Type "bye" to quit.',encoding))
+    client.send(bytes('You are connected to chat. Type "bye" to quit.', encoding))
     message = 'System: %s has joined chat.' % name
     # send chat connection information to all clients
-    broadcast(bytes(message,encoding))
+    broadcast(bytes(message, encoding))
 
     while True:
         global checkPoint
@@ -48,19 +48,19 @@ def client_chat(client, client_address):
         if message != bytes('bye', encoding):
             # check who sent the message first
             # only when two people have been connected to the system
-            if checkPoint == False and len(clients) == 2:
+            if checkPoint is False and len(clients) == 2:
                 checkPoint = True
                 status_message = '*** ' + order[list(clients.values()).index(name)] + ': ' +\
                     name + ' received before ' + order[(list(clients.values()).index(name) + 1) % len(clients)] +\
-                    ': ' + list(clients.values())[ (list(clients.values()).index(name) + 1) % len(clients)] + ' ***'
+                    ': ' + list(clients.values())[(list(clients.values()).index(name) + 1) % len(clients)] + ' ***'
                 # send status message to all clients
-                broadcast(bytes(status_message,encoding))
+                broadcast(bytes(status_message, encoding))
 
             broadcast(message, name + ': ')
   
         else:
-            client.send(bytes('System: Bye, ' + name,encoding))
-            broadcast(bytes('System: %s has left chat.' % name,encoding))
+            client.send(bytes('System: Bye, ' + name, encoding))
+            broadcast(bytes('System: %s has left chat.' % name, encoding))
             # close connection
             client.close()
             print('%s:%s has disconnected' % client_address)
@@ -70,7 +70,7 @@ def client_chat(client, client_address):
 
 
 # function to broadcast messages to all connected clients
-def broadcast(message,prefix=''):
+def broadcast(message, prefix=''):
 
     # send message to all clients
     for sockets in clients:

@@ -26,7 +26,7 @@ def receive_message():
 def send_message(event=None):
     clientSocket.send(bytes(message,encoding))
     if message == 'bye':
-        clientSocket.close
+        clientSocket.close()
 
 
 def on_close(event=None):
@@ -37,7 +37,7 @@ def on_close(event=None):
 if __name__ == '__main__':
 
     clientSocket = socket(AF_INET, SOCK_STREAM)
-    clientSocket.connect((serverName,serverPort))
+    clientSocket.connect((serverName, serverPort))
 
     receiveThread = Thread(target=receive_message)
     receiveThread.start()
