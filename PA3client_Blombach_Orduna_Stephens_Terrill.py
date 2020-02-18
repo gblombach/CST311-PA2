@@ -5,45 +5,53 @@
 
 from socket import *
 from threading import Thread
+import time
 
 # variables
 serverName = 'localhost'
 serverPort = 12021
 messageSize = 1024
-encoding = 'utf8'
+encoding ='utf8'
 
-
-def receive_message():
+# function to receive messages through client socket
+def receiveMessage():
     while True:
         try:
             message = clientSocket.recv(messageSize)
             print(message.decode())
+ 
         except Exception as e:
             print(e)
             break
 
-
-def send_message(event=None):
+# function to send messages via client socket
+def sendMessage(event=None):
     clientSocket.send(bytes(message,encoding))
-    if message == 'bye':
-        clientSocket.close()
 
 
-def on_close(event=None):
-    message = 'bye'
-    send_message()
+#def onClose(event=None):
+    #message ='bye'
+    #sendMessage()
                
-
+# run main routine
 if __name__ == '__main__':
 
+    #setup client socket to server
     clientSocket = socket(AF_INET, SOCK_STREAM)
-    clientSocket.connect((serverName, serverPort))
+    clientSocket.connect((serverName,serverPort))
 
-    receiveThread = Thread(target=receive_message)
+    #create thread to receive messages via function
+    receiveThread = Thread(target=receiveMessage)
     receiveThread.start()
-    
+
+    #loop keyboard input    
     while True:
         message = input('')
-        send_message()
-        
-    # clientSocket.close()
+        sendMessage()
+        #if client wants to quit, then break loop
+        if message == 'bye':
+            time.sleep(3)
+            break   
+    #close connection
+    clientSocket.close()
+    
