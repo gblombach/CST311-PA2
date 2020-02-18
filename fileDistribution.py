@@ -1,9 +1,9 @@
 def file_distribution():
-    F = 9000
-    N = 6
-    Us = 91
-    u_arr = [13, 26, 29, 18, 12, 18]
-    d_arr = [11, 19, 21, 31, 17, 27]
+    F = 7000
+    N = 5
+    Us = 99
+    u_arr = [16, 21, 13, 11, 24]
+    d_arr = [35, 39, 23, 26, 30]
 
     Dcs = max(((N * F) / Us), F / min(d_arr))
     print('Dcs', round(Dcs, 2))
@@ -11,9 +11,10 @@ def file_distribution():
     Dp2p = max((F / Us), (F / min(d_arr)), (N * F) / (Us + sum(u_arr)))
     print('Dp2p', round(Dp2p, 2))
 
+
 def rtt_equation():
-    samples = [250, 300, 150, 200, 5]
-    EstimatedRTT = 175
+    samples = [30,40,100,40,50]
+    EstimatedRTT = 100
     DevRTT = 0
     ALPHA = 0.125
     BETA = 0.25
@@ -30,6 +31,7 @@ def rtt_equation():
 
     Timout = EstimatedRTT + 4 * DevRTT
     print('TimeoutInterval', round(Timout, 3))
+
 
 def checksum():
     num1 = '1001100110111100'
@@ -48,7 +50,6 @@ def checksum():
     print('CheckSum is ', inverted)
 
 
-
-# file_distribution()
+file_distribution()
 # rtt_equation()
-checksum()
+# checksum()

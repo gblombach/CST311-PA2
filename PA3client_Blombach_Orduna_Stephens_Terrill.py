@@ -10,9 +10,10 @@ from threading import Thread
 serverName = 'localhost'
 serverPort = 12021
 messageSize = 1024
-encoding ='utf8'
+encoding = 'utf8'
 
-def receiveMessage():
+
+def receive_message():
     while True:
         try:
             message = clientSocket.recv(messageSize)
@@ -21,14 +22,16 @@ def receiveMessage():
             print(e)
             break
 
-def sendMessage(event=None):
+
+def send_message(event=None):
     clientSocket.send(bytes(message,encoding))
     if message == 'bye':
         clientSocket.close
 
-def onClose(event=None):
-    message ='bye'
-    sendMessage()
+
+def on_close(event=None):
+    message = 'bye'
+    send_message()
                
 
 if __name__ == '__main__':
@@ -36,12 +39,11 @@ if __name__ == '__main__':
     clientSocket = socket(AF_INET, SOCK_STREAM)
     clientSocket.connect((serverName,serverPort))
 
-    receiveThread = Thread(target=receiveMessage)
+    receiveThread = Thread(target=receive_message)
     receiveThread.start()
     
     while True:
         message = input('')
-        sendMessage()
+        send_message()
         
-    #clientSocket.close()
-    
+    # clientSocket.close()
