@@ -26,7 +26,7 @@ def receiveMessage():
 
 # function to send messages via client socket
 def sendMessage(event=None):
-    clientSocket.send(bytes(message,encoding))
+    clientSocket.send(bytes(message).encode(encoding))
 
 
 #def onClose(event=None):

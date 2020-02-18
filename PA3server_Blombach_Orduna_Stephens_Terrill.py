@@ -27,7 +27,7 @@ def acceptConnection():
     while True:
         client, clientAddress = serverSocket.accept()
         print('%s:%s has connected' % clientAddress)
-        client.send(bytes('Connected to chat server. Enter your name and press enter.',encoding))
+        client.send(bytes('Connected to chat server. Enter your name and press enter.').encode(encoding))
         Thread(target=clientChat, args=(client,clientAddress)).start()
         
 #function for receiving messages from clients
@@ -35,10 +35,10 @@ def clientChat(client,clientAddress):
     name = client.recv(messageSize).decode()
     #store sockets in tuple
     clients[client] = name
-    client.send(bytes('You are connected to chat. Type "bye" to quit.',encoding))
+    client.send(bytes('You are connected to chat. Type "bye" to quit.').encode(encoding))
     message = 'System: %s has joined chat.' % name
     #send chat connection information to all clients
-    broadcast(bytes(message,encoding))
+    broadcast(bytes(message).encode(encoding))
 
 
     while True:
@@ -47,7 +47,7 @@ def clientChat(client,clientAddress):
         #get message from client
         message = client.recv(messageSize)
         #if the message is not a disconnect request
-        if message !=bytes('bye',encoding):
+        if message !=bytes('bye').encode(encoding):
             #check who sent the message first
             #only when two people have been connected to the system
             if checkPoint == False and len(clients) == 2:
@@ -56,15 +56,15 @@ def clientChat(client,clientAddress):
                     name + ' received before ' + order[(list(clients.values()).index(name) + 1) % len(clients)] +\
                     ': ' + list(clients.values())[ (list(clients.values()).index(name) + 1) % len(clients)] + ' ***'
                 #send status message to all clients
-                broadcast(bytes(statusMessage,encoding))
+                broadcast(bytes(statusMessage).encode(encoding))
 
                 
             broadcast(message, name + ': ')
 
         #else disconnect
         else:
-            client.send(bytes('System: Bye, ' + name,encoding))
-            broadcast(bytes('System: %s has left chat.' % name,encoding))
+            client.send(bytes('System: Bye, ' + name).encode(encoding))
+            broadcast(bytes('System: %s has left chat.' % name).encode(encoding))
             #close connection
             time.sleep(2)
             client.close()
@@ -79,10 +79,10 @@ def broadcast(message,prefix=''):
 
     #send message to all clients
     for sockets in clients:
-        sockets.send(bytes(prefix,encoding)+ message)
+        sockets.send(bytes(prefix).encode(encoding)+ message)
 
     #send message to server too
-    print((bytes(prefix,encoding)+ message).decode())
+    print((bytes(prefix).encode(encoding)+ message).decode())
 
 # main function that establishes socket listener        
 def Main():
