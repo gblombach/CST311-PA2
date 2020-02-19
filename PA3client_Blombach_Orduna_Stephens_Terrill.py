@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
     #loop keyboard input    
     while True:
-        message = input('')
+        message = raw_input('')
         sendMessage()
         #if client wants to quit, then break loop
         if message == 'bye':
